@@ -1,0 +1,34 @@
+{
+  "app": "npx ts-node index.ts",
+  "context": {
+    "ops-dev": {
+      "App": "GitHubRunners",
+      "AWSAccountID": "123456789100",
+      "AWSRegion": "us-east-1",
+      "Environment": "WebOpsDev",
+      "Version": "v0.0.1-alpha",
+      "Team": "WebPlatform",
+
+      "BuildParameters": {
+        "availabilityZones": ["us-east-1", "us-east-1b"],
+        "baseImageAccessAccounts": ["123456789101", "123456789102"],
+        "buildEnvironment": "WebOpsDev",
+        "containerBuildPath": "../docker",
+        "ecrSourceAccount": "123456789100",
+        "ecrRepoName": "github-runner",
+        "maxCpu": 80,
+        "maxMem": 80,
+        "organizationUrl": "https://github.com/ProjectAussie",
+        "privateSubnetIds": ["subnet-05a1dbbbcdff2e123", "subnet-053390f86ac53b254"],
+        "runnerGroup": "web-ops-dev",
+        "skipContainerBuild": true,
+        "taskCount": 2,
+        "taskCpu": "4096",
+        "taskMax": 4,
+        "taskMem": "8192",
+        "taskMin": 1,
+        "vpcId": "vpc-054f9a7d2a3522444"
+      }
+    }
+  }
+}

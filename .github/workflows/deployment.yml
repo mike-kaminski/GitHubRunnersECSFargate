@@ -1,0 +1,55 @@
+name: "GitHub Runner Deployment"
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Which environment?"
+        type: choice
+        # Add new environment context value to the options below.
+        options:
+          - "ops-dev"
+permissions:
+  id-token: write
+  contents: write
+jobs:
+  deploy:
+    name: Deploy ${{ matrix.environment }}
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        environment: [ "${{ github.event.inputs.environment }}" ]
+        include:
+          - environment: ops-dev
+            assume_role: arn:aws:iam::123456789100:role/githubActionsOidc
+            region: us-east-1
+    defaults:
+      run:
+        shell: bash
+        working-directory: cdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        id: checkout
+      - name: Set up node
+        uses: actions/setup-node@v3
+        id: set-node
+        with:
+          node-version: "16"
+          check-latest: true
+      - name: Configure credentials
+        id: aws-creds
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{ matrix.assume_role }}
+          role-duration-seconds: 1200
+          aws-region: ${{ matrix.region }}
+      - name: Install dependencies
+        id: npm-i
+        run: npm install
+      - name: Run deployment
+        id: deploy
+        run: |
+          npx cdk deploy "*" -c config=$ENVIRONMENT --require-approval never
+        env:
+          ENVIRONMENT: ${{ matrix.environment }}

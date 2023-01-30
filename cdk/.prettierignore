@@ -1,0 +1,7 @@
+node_modules
+bin/*
+lib/*
+cdk.out/*
+package-lock.json
+README.md
+*.js
