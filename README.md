@@ -54,8 +54,6 @@ In the `cdk/package.json` file, include a new set of CDK commands in the scripts
 ...
 ```
 
-:construction: GitHub Actions workflow automation TBD :construction:
-
 ## Environment variables
 
 The following environment variables allows you to control the configuration parameters.
